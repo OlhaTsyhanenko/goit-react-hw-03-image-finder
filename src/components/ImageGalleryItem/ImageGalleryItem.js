@@ -2,22 +2,17 @@ import PropTypes from 'prop-types';
 import styles from '../ImageGalleryItem/imageGalleryItem.module.css';
 
 const ImageGalleryItem = ({ image, onImageClick }) => {
-  const fullImage = () => onImageClick(image.largeImageURL);
-
+  
   return (
     <li className={styles.imageGalleryItem}>
       <img
         src={image.webformatURL}
         alt={image.tags}
-        onClick={fullImage}
+        onClick={() => onImageClick(image.largeImageURL)}
         className ={styles.imageGalleryItem__image}
       />
     </li>
   );
-};
-
-ImageGalleryItem.defaultProps = {
-  tags: '',
 };
 
 ImageGalleryItem.propTypes = {

@@ -3,7 +3,7 @@ import styles from '../Loader/loader.module.css';
 
 const Loader = () => (
   <div className={styles.loader}>
-    <Spinner type="Puff"
+    <Spinner type="ThreeDots"
         color="#00BFFF"
         height={100}
         width={100}

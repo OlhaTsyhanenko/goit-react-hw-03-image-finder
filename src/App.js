@@ -19,6 +19,7 @@ class App extends Component {
     page: 1,
     largeImage: '',
     error: null,
+    showMessage: false
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -36,7 +37,7 @@ class App extends Component {
   }
 
   fetchData = () => {
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true, showMessage: false })
     const { query, page } = this.state;
     dataApi
       .fetchData(query, page)
@@ -48,9 +49,16 @@ class App extends Component {
         if (page !== 1) {
           this.scrollOnLoadButton();
         }
+        
       })
       .catch(error => this.setState({ error }))
-      .finally(() => this.setState({ isLoading: false }))
+      .finally(() => {
+        const { data, query } = this.state;
+        this.setState({ isLoading: false })
+        if (data.length === 0 && query !== '') {
+         this.setState({showMessage: true})
+        }
+      })
   }
 
   handleGalleryItem = fullImageUrl => {
@@ -77,15 +85,18 @@ class App extends Component {
 
   render() {
     console.log(this.state.data);
-    const {showModal} = this.state;
-    const showLoadMore = this.state.data.length > 0 && this.state.data.length >= 12;
+    const { showModal, data, largeImage, showMessage, isLoading } = this.state;
+    const {handleFormSubmit, handleGalleryItem, fetchData, toggleModal} = this;
+    const showLoadMore = data.length > 0 && data.length >= 12;
+    
     return (
       <div className={styles.app}>
-        <Searchbar onSubmit={this.handleFormSubmit} />
-        <ImageGallery onImageClick={this.handleGalleryItem} data={this.state.data} />
-        {this.state.isLoading && <Loader />}
-        {showLoadMore && <Button onClick={this.fetchData} />}
-        {showModal && <Modal onClose={this.toggleModal} largeImage={this.state.largeImage} />}
+        <Searchbar onSubmit={handleFormSubmit} />
+        <ImageGallery onImageClick={handleGalleryItem} data={data} />
+        {isLoading && <Loader />}
+        {showMessage && <h2 className={styles.emptyGallery}>The gallery is empty! Try another query!</h2>}
+        {showLoadMore && <Button onClick={fetchData} />}
+        {showModal && <Modal onClose={toggleModal} largeImage={largeImage} />}
         {this.error && <h2>{this.error.message}</h2>}
         <ToastContainer autoClose={2000}/>
     </div>  
