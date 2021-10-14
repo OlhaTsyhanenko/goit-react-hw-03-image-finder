@@ -5,11 +5,12 @@ const ImageGalleryItem = ({ image, onImageClick }) => {
   const fullImage = () => onImageClick(image.largeImageURL);
 
   return (
-    <li className={styles.ImageGalleryItem}>
+    <li className={styles.imageGalleryItem}>
       <img
         src={image.webformatURL}
         alt={image.tags}
         onClick={fullImage}
+        className ={styles.imageGalleryItem__image}
       />
     </li>
   );

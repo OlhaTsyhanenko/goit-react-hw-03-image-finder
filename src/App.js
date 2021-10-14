@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
+import styles from '../src/app.module.css';
 import * as dataApi from './api';
 import Modal from './components/Modal/Modal';
 import Searchbar from './components/Searchbar/Searchbar';
@@ -52,7 +52,7 @@ class App extends Component {
       .catch(error => this.setState({ error }))
       .finally(() => this.setState({ isLoading: false }))
   }
-  
+
   handleGalleryItem = fullImageUrl => {
     this.setState({
       largeImage: fullImageUrl,
@@ -80,15 +80,15 @@ class App extends Component {
     const {showModal} = this.state;
     const showLoadMore = this.state.data.length > 0 && this.state.data.length >= 12;
     return (
-      <>
+      <div className={styles.app}>
         <Searchbar onSubmit={this.handleFormSubmit} />
         <ImageGallery onImageClick={this.handleGalleryItem} data={this.state.data} />
+        {this.state.isLoading && <Loader />}
         {showLoadMore && <Button onClick={this.fetchData} />}
         {showModal && <Modal onClose={this.toggleModal} largeImage={this.state.largeImage} />}
-        {this.state.isLoading && <Loader />}
         {this.error && <h2>{this.error.message}</h2>}
         <ToastContainer autoClose={2000}/>
-    </>  
+    </div>  
     )
   }
 }

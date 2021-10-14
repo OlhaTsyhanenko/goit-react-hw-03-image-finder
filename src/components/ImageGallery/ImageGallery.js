@@ -3,7 +3,7 @@ import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import styles from '../ImageGallery/imageGallery.module.css';
 
 const ImageGallery = ({ data, onImageClick }) => (
-  <ul className={styles.ImageGallery}>
+  <ul className={styles.imageGallery}>
     {data.map(image => {
       return (
         <ImageGalleryItem
