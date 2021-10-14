@@ -23,7 +23,7 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query) {
-      this.fetchData(false);
+      this.fetchData();
     }
   }
 
@@ -35,7 +35,7 @@ class App extends Component {
     });
   }
 
-  fetchData = scroll => {
+  fetchData = () => {
     this.setState({ isLoading: true })
     const { query, page } = this.state;
     dataApi
@@ -51,32 +51,8 @@ class App extends Component {
       })
       .catch(error => this.setState({ error }))
       .finally(() => this.setState({ isLoading: false }))
-  
   }
-
-  // getData = () => {
-    //const keyApi = '23047569-c77e6b9c2c44e7090fa2652c3';
-            // this.setState({ loading: true , data: []})
-    // fetch(`https://pixabay.com/api/?q=${this.state.query}&page=${this.state.page}&key=${keyApi}&image_type=photo&orientation=horizontal&per_page=12 `)
-    //   .then(response => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-                  
-    //     return Promise.reject(
-    //       new Error(`Нет запроса для ${this.props.query}`)
-    //     );
-    //   })
-    //   .then(data => this.setState(prevState => ({ data: [...prevState.data, ...data], page: prevState.page + 1 })))
-    //             .catch(error => this.setState({error}))
-    //           .finally(this.setState({ isLoading: false }));
-    
-    // if (this.state.page !== 1) {
-    //     this.scrollOnLoadButton();
-    //   }
-    
-  // }
-
+  
   handleGalleryItem = fullImageUrl => {
     this.setState({
       largeImage: fullImageUrl,
